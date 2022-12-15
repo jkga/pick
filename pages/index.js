@@ -40,20 +40,16 @@ export default function Home() {
 
     let fileLength = files.length
 
-    // add to winners pool
-    if(currentWinner !== null) {
-      const win = [...winners]
-      win.push(currentWinner)
-
       //remove drawn items checkboox is selected
-      if(removeDrawnItems) {
-        setWinners(win)
+    if(removeDrawnItems) {
+      
+      const newFiles = Array.from(files).filter((el, index) => index !== currentWinner)
+      fileLength = newFiles.length
 
-        fileLength = files.filter((el, index) => {
-          return win[index] === undefined
-        }).length
-      }
+      setFiles(newFiles)
+
     }
+    
 
     setTimeout(() => {
       drawRandom(fileLength > 1 ? (fileLength - 1) : 0)
@@ -159,9 +155,7 @@ export default function Home() {
             Please select file(s) to upload
           </label>
 
-          {files && files.filter((el, index) => {
-            return winners[index] === undefined
-          }).map((el, index) => {
+          {files && files.map((el, index) => {
             if(selectedFileIndex === index) {
               return <>
                 <h1 className='mb-3'>#{index + 1}</h1>
